@@ -5,6 +5,7 @@ class game2048_act_agent extends uvm_agent;
 game2048_inp_monitor inp_mon;
 game2048_driver dri;
 game2048_sequencer sqnr;
+game2048_config cfg;
 
 function new(string name="game2048_act_agent", uvm_component parent=null);
 	super.new(name,parent);
@@ -13,7 +14,16 @@ endfunction
 function void build_phase(uvm_phase phase);
 	super.build_phase(phase);
 
-	if(input_agent_is_active==UVM_ACTIVE)
+function new(string name = "game2048_driver", uvm_component parent);
+	super.new(name, parent);
+endfunction
+
+function void build_phase(uvm_phase phase);
+	super.build_phase(phase);
+	if(!uvm_config_db #(game2048_config)::get(this, "", "cfg", cfg))
+		`uvm_fatal("DRIVER", "Configuration class not found")
+endfunction
+		if(cfg.input_agent_is_active==UVM_ACTIVE)
 	begin
 		dri=game2048_driver::type_id::create("dri",this);
 		sqnr=game2048_sequencer::type_id::create("sqnr",this);
