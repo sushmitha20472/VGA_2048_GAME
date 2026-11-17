@@ -22,8 +22,8 @@ function void build_phase(uvm_phase phase);
 	super.build_phase(phase);
 	if(!uvm_config_db #(game2048_config)::get(this, "", "cfg", cfg))
 		`uvm_fatal("DRIVER", "Configuration class not found")
-endfunction
-		if(cfg.input_agent_is_active==UVM_ACTIVE)
+		
+	if(cfg.input_agent_is_active==UVM_ACTIVE)
 	begin
 		dri=game2048_driver::type_id::create("dri",this);
 		sqnr=game2048_sequencer::type_id::create("sqnr",this);
@@ -36,7 +36,7 @@ endfunction
 function void connect_phase(uvm_phase phase);
 	super.connect_phase(phase);
 
-	if(get_is_active()==UVM_ACTIVE)
+	if(cfg.input_agent_is_active==UVM_ACTIVE)
 		dri.seq_item_port.connect(sqnr.seq_item_export);
 
 endfunction
