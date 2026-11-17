@@ -13,7 +13,7 @@ endfunction
 function void build_phase(uvm_phase phase);
 	super.build_phase(phase);
 
-	if(get_is_active()==UVM_ACTIVE)
+	if(input_agent_is_active==UVM_ACTIVE)
 	begin
 		dri=game2048_driver::type_id::create("dri",this);
 		sqnr=game2048_sequencer::type_id::create("sqnr",this);
